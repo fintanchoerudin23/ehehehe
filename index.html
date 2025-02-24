@@ -24,7 +24,7 @@
 
         #buttonsContainer {
             display: flex;
-            justify-content: space-between; /* Memisahkan tombol YES (kiri) & NO (kanan) */
+            justify-content: space-between;
             width: 300px;
         }
 
@@ -46,7 +46,7 @@
         #noButton {
             background-color: red;
             position: relative;
-            transition: transform 0.1s ease-out; /* Mempercepat reaksi tombol */
+            transition: transform 0.05s ease-out; /* Mempercepat reaksi tombol */
         }
     </style>
 </head>
@@ -68,21 +68,23 @@
         });
 
         function moveNoButton() {
-            const container = document.getElementById('buttonsContainer');
-            const rect = container.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const buttonWidth = noButton.offsetWidth;
+            const buttonHeight = noButton.offsetHeight;
 
-            const angle = Math.random() * 2 * Math.PI; // Sudut acak
-            const radius = 80; // Jarak pergerakan lebih besar (80px)
+            const newX = Math.random() * (screenWidth - buttonWidth);
+            const newY = Math.random() * (screenHeight - buttonHeight);
 
-            const newX = centerX + Math.cos(angle) * radius - rect.left;
-            const newY = centerY + Math.sin(angle) * radius - rect.top;
-
-            noButton.style.transform = `translate(${newX}px, ${newY}px)`;
+            noButton.style.position = "absolute";
+            noButton.style.left = `${newX}px`;
+            noButton.style.top = `${newY}px`;
         }
 
-        noButton.addEventListener('mouseenter', moveNoButton); // Gerakan lebih cepat
+        // Event untuk mouse (desktop)
+        noButton.addEventListener('mouseenter', moveNoButton);
+        // Event untuk sentuhan (smartphone)
+        noButton.addEventListener('touchstart', moveNoButton);
     </script>
 
 </body>
